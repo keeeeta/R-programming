@@ -1,0 +1,72 @@
+---
+title: "The Ramen Report"
+author: "Keerthana"
+date: "15/06/2021"
+output: html_document
+---
+
+In this report i have analysed the ramen-ratings data set form the kaggle. The link for the data set is given below:
+![ramen-ratings.csv](https://www.kaggle.com/residentmario/ramen-ratings)
+
+Now let us import the necessary libraries for the analysis
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+```
+
+Here we would be using the Tidyr package which helps us clean and format the data frame. We would be using dplyr package to perform data manipulation operations and we would also be using the ggplot2 package that helps us visualize our insights which we derived out of the data set.
+
+Now let us read the data and store it in a data frame thus we can work on the created data frame without affecting the source data frame.
+```{r}
+ramen <- read.csv("ramen-ratings.csv")
+```
+
+Lets have a closer look into the data frame by looking into the column names, thus learning its structure. Following we can have a look into the first few rows of the records just to get an insight of the data frame.
+```{r}
+colnames(ramen)
+head(ramen)
+```
+
+According to the description of the data, it is given that the ratings of the ramen are given by the 'Stars' column whose value ranges between 0 to 5. Let us work on finding the country that sells the best large number of ramen. Thus let us extract the data frame to the ramen which holds 5 star rating and arrange it in descending order thus we can get to view from the highest rating to lower.
+```{r}
+top_ramen<- ramen %>% 
+  filter(Stars==5) %>% 
+  arrange(desc(Stars))
+```
+
+Lets plot the 'top_ramen' data set into a bar graph so that we can easily get to know which country serves the most number of ramen whose rating is 5 stars
+```{r}
+ggplot(data = top_ramen)+
+  geom_bar(mapping = aes(x=Country,fill=Country))+
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+```
+
+We can see that Japan has the largest number of 5 star ramen. To be more precise let us count the number of 5 star ramen available in Japan.
+```{r}
+nrow(subset(top_ramen,Country == "Japan"))
+```
+
+This code shows the count of 5 star ramen available in japan. Now once again look into the source data frame.
+```{r}
+colnames(ramen)
+```
+
+The column 'Top.Ten' is a special column and only selected ramen has entry into that. These ramen with an entry in the column has set a record into the top ten best ramen of the year. Thus let us now find the best out of the best record holding ramen. For that we need to extract from the source data frame, only the entries with a record in 'Top.Ten' column. It can be done as follows
+```{r}
+elite_ramen <- subset(top_ramen, Top.Ten != "")
+```
+
+Now let us plot this 'elite_ramen' data set into a bar graph and find out which country has the highest number of record holding ramen. You might be guessing that it would obviously be Japan. But the result turns out to be,
+```{r}
+ggplot(data = elite_ramen)+
+  geom_bar(mapping = aes(x=Country,fill=Country))+
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+```
+
+Thus we get to know that though japan has a large number of 5 star ramen , Singapore hold the greater number of record holding ramen.
+```{r}
+nrow(subset(elite_ramen,Country == "Singapore"))
+```
+
+Singapore has 7 record holding ramen. Like this we can work on this data set to derive new conclusions and derivations. It has no limits. Thus keep exploring :)
