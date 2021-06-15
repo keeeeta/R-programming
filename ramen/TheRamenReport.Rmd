@@ -6,7 +6,7 @@ output: html_document
 ---
 
 In this report i have analysed the ramen-ratings data set form the kaggle. The link for the data set is given below:
-![ramen-ratings.csv](https://www.kaggle.com/residentmario/ramen-ratings)
+!(https://www.kaggle.com/residentmario/ramen-ratings)
 
 Now let us import the necessary libraries for the analysis
 ```{r}
